@@ -1,4 +1,4 @@
-package com.trainingkaryawan.model.response.request;
+package com.trainingkaryawan.model.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

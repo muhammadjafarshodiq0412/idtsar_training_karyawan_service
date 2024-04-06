@@ -1,4 +1,4 @@
-package com.trainingkaryawan.model.response.request;
+package com.trainingkaryawan.model.request;
 
 import lombok.Data;
 

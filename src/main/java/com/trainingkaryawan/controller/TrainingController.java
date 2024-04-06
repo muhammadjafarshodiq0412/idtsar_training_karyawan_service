@@ -1,11 +1,12 @@
-package com.trainingkaryawan.controller.training;
+package com.trainingkaryawan.controller;
 
+import static com.trainingkaryawan.constant.GeneralConstant.*;
 import com.trainingkaryawan.controller.CrudController;
+import com.trainingkaryawan.model.request.BasePagingRequest;
+import com.trainingkaryawan.model.request.DeleteRequest;
+import com.trainingkaryawan.model.request.training.TrainingSaveRequest;
+import com.trainingkaryawan.model.request.training.TrainingUpdateRequest;
 import com.trainingkaryawan.model.response.GeneraleResponse;
-import com.trainingkaryawan.model.response.request.BasePagingRequest;
-import com.trainingkaryawan.model.response.request.DeleteRequest;
-import com.trainingkaryawan.model.response.request.master.TrainingSaveRequest;
-import com.trainingkaryawan.model.response.request.master.TrainingUpdateRequest;
 import com.trainingkaryawan.service.impl.TrainingServiceImpl;
 import com.trainingkaryawan.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/training")
 public class TrainingController implements CrudController<TrainingSaveRequest, BasePagingRequest, TrainingUpdateRequest, DeleteRequest, Long> {
 
-    private static final String CONTROLLER_NAME = "training";
-
     private final TrainingServiceImpl trainingService;
 
     public TrainingController(TrainingServiceImpl trainingService) {
@@ -30,7 +29,7 @@ public class TrainingController implements CrudController<TrainingSaveRequest, B
     @PostMapping("/save")
     @Override
     public ResponseEntity<Object> create(@RequestBody TrainingSaveRequest request) {
-        log.info("incoming request save {} with request {}", CONTROLLER_NAME, JsonUtil.getString(request));
+        log.info("incoming request save {} with request {}", TRAINING, JsonUtil.getString(request));
         Pair<HttpStatus, GeneraleResponse<Object>> response = trainingService.save(request);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
@@ -40,7 +39,7 @@ public class TrainingController implements CrudController<TrainingSaveRequest, B
     public ResponseEntity<Object> getAll(
             @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
             @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
-        log.info("incoming request getAll {} with request page {} size {}", CONTROLLER_NAME, page, size);
+        log.info("incoming request getAll {} with request page {} size {}", TRAINING, page, size);
         BasePagingRequest request = new BasePagingRequest(page, size);
         Pair<HttpStatus, GeneraleResponse<Object>> response = trainingService.findAll(request);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
@@ -49,7 +48,7 @@ public class TrainingController implements CrudController<TrainingSaveRequest, B
     @PutMapping("/update")
     @Override
     public ResponseEntity<Object> update(@RequestBody TrainingUpdateRequest request) {
-        log.info("incoming request update {} with request {}", CONTROLLER_NAME, JsonUtil.getString(request));
+        log.info("incoming request update {} with request {}", TRAINING, JsonUtil.getString(request));
         Pair<HttpStatus, GeneraleResponse<Object>> response = trainingService.update(request);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
@@ -57,7 +56,7 @@ public class TrainingController implements CrudController<TrainingSaveRequest, B
     @DeleteMapping("/delete")
     @Override
     public ResponseEntity<Object> delete(@RequestBody DeleteRequest request) {
-        log.info("incoming request delete {} for id {}", CONTROLLER_NAME, request);
+        log.info("incoming request delete {} for id {}", TRAINING, request);
         Pair<HttpStatus, GeneraleResponse<Object>> response = trainingService.delete(request.getId());
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
@@ -65,7 +64,7 @@ public class TrainingController implements CrudController<TrainingSaveRequest, B
     @GetMapping("/{id}")
     @Override
     public ResponseEntity<Object> getById(@PathVariable(name = "id") Long request) {
-        log.info("incoming request getById {} for id {}", CONTROLLER_NAME, request);
+        log.info("incoming request getById {} for id {}", TRAINING, request);
         Pair<HttpStatus, GeneraleResponse<Object>> response = trainingService.findById(request);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }

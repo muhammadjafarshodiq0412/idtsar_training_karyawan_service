@@ -1,7 +1,7 @@
 package com.trainingkaryawan.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.trainingkaryawan.model.response.request.master.TrainingSaveRequest;
+import com.trainingkaryawan.model.request.training.TrainingSaveRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

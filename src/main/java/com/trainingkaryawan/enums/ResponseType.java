@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum ResponseType {
     SUCCESS_PING(ResponseStatus.SUCCESS.getCode(), ResponseStatus.SUCCESS, "Pong! 👋", "Pong! 👋"),
+    SUCCESS_GENERATE_TOKEN(ResponseStatus.SUCCESS.getCode(), ResponseStatus.SUCCESS, "Token generated", "Token berhasil digenerate"),
     SUCCESS_SAVE(ResponseStatus.SUCCESS.getCode(), ResponseStatus.SUCCESS, "Data has been successfully saved", "Data berhasil disimpan"),
     SUCCESS_UPDATE(ResponseStatus.SUCCESS.getCode(), ResponseStatus.SUCCESS, "Data has been successfully updated", "Data berhasil diperbarui"),
     SUCCESS_DELETE(ResponseStatus.SUCCESS.getCode(), ResponseStatus.SUCCESS, "Data has been successfully deleted", "Data berhasil dihapus"),
@@ -18,6 +19,7 @@ public enum ResponseType {
     UNAUTHORIZED_TOKEN_INVALID(ResponseStatus.UNAUTHORIZED.getCode(), ResponseStatus.UNAUTHORIZED, "Invalid Token", "Token tidak valid"),
 
     FAILED_SAVE(ResponseStatus.BAD_REQUEST.getCode(), ResponseStatus.BAD_REQUEST, "Data failed to save", "Data gagal disimpan"),
+    CREDENTIAL_AUTH_WORNG(ResponseStatus.BAD_REQUEST.getCode(), ResponseStatus.BAD_REQUEST, "Username or password is wrong", "Username atau password salah"),
     FAILED_UPDATE(ResponseStatus.BAD_REQUEST.getCode(), ResponseStatus.BAD_REQUEST, "Data failed to update", "Data gagal diperbarui"),
     FAILED_DELETE(ResponseStatus.BAD_REQUEST.getCode(), ResponseStatus.BAD_REQUEST, "Data failed to delete", "Data gagal dihapus"),
 

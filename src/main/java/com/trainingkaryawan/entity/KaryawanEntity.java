@@ -16,28 +16,27 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Entity
+@Entity(name = "karyawan")
 @NoArgsConstructor
 @AllArgsConstructor
-public class KaryawanEntity extends BaseEntity{
+public class KaryawanEntity extends BaseEntity {
 
     private String nama;
     private String alamat;
     private String status;
-    @JsonFormat(pattern=GeneralConstant.YYYY_MM_DD)
+    @JsonFormat(pattern = GeneralConstant.YYYY_MM_DD)
     private Date dob;
-
     @OneToOne
     @JoinColumn(name = "detail_karyawan")
     private DetailKaryawanEntity detailKaryawan;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "karyawan", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<KaryawanTrainingEntity> karyawanTraining;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "karyawan")
-    private RekeningEntity rekening;
+    //todo remove bidirectional association, reason when do delete data not deleted
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "karyawan", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+//    private List<KaryawanTrainingEntity> karyawanTraining;
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "karyawan", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+//    private RekeningEntity rekening;
 
     public KaryawanEntity(KaryawanSaveRequest data) {
         this.nama = data.getNama();

@@ -19,9 +19,10 @@ import lombok.NoArgsConstructor;
 public class DetailKaryawanEntity extends BaseEntity{
     private String nik;
     private String npwp;
-    @JsonIgnore
-    @OneToOne(mappedBy = "detailKaryawan", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    private KaryawanEntity karyawan;
+    //todo remove bidirectional association, reason when do delete data not deleted
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "detailKaryawan", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+//    private KaryawanEntity karyawan;
 
     public DetailKaryawanEntity(DetailKaryawanSaveRequest data) {
         this.nik = data.getNik();

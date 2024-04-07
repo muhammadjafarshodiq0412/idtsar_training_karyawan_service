@@ -22,9 +22,10 @@ public class TrainingEntity extends BaseEntity{
     private String pengajar;
     private String tema;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "training", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<KaryawanTrainingEntity> karyawanTraining;
+    //todo remove bidirectional association, reason when do delete data not deleted
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "training", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+//    private List<KaryawanTrainingEntity> karyawanTraining;
 
     public TrainingEntity(TrainingSaveRequest data) {
         this.pengajar = data.getPengajar();

@@ -6,7 +6,7 @@ import com.trainingkaryawan.enums.ResponseType;
 import com.trainingkaryawan.model.request.BasePagingRequest;
 import com.trainingkaryawan.model.request.rekening.RekeningSaveRequest;
 import com.trainingkaryawan.model.request.rekening.RekeningUpdateRequest;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
 import com.trainingkaryawan.model.response.rekening.KaryawanModel;
 import com.trainingkaryawan.model.response.rekening.RekeningResponse;
 import com.trainingkaryawan.repository.KaryawanRepository;
@@ -25,7 +25,7 @@ import static com.trainingkaryawan.constant.GeneralConstant.*;
 
 @Slf4j
 @Service
-public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, RekeningUpdateRequest, Pair<HttpStatus, GeneraleResponse<Object>>> {
+public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, RekeningUpdateRequest, Pair<HttpStatus, GeneralResponse<Object>>> {
     private final KaryawanRepository karyawanRepository;
     private final RekeningRepository rekeningRepository;
     private final ResponseService responseService;
@@ -37,9 +37,9 @@ public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, Rek
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> save(RekeningSaveRequest data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> save(RekeningSaveRequest data) {
         log.info(String.format(LOG_START, SAVE, REKENING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
         RekeningEntity rekening = new RekeningEntity(data);
         try {
             KaryawanEntity karyawan = karyawanRepository.findById(data.getKaryawan()).orElse(null);
@@ -59,9 +59,9 @@ public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, Rek
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> update(RekeningUpdateRequest data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> update(RekeningUpdateRequest data) {
         log.info(String.format(LOG_START, UPDATE, REKENING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
         RekeningEntity rekening = rekeningRepository.findById(data.getId()).orElse(null);
         try {
             if (rekening == null) {
@@ -89,9 +89,9 @@ public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, Rek
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> delete(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> delete(Long id) {
         log.info(String.format(LOG_START, DELETE, REKENING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
         RekeningEntity data = rekeningRepository.findById(id).orElse(null);
         try {
             if (data == null) {
@@ -110,9 +110,9 @@ public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, Rek
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findById(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findById(Long id) {
         log.info(String.format(LOG_START, GET_BY_ID, REKENING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         try {
             RekeningEntity data = rekeningRepository.findById(id).orElse(null);
             if (ObjectUtils.isEmpty(data)) {
@@ -130,9 +130,9 @@ public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, Rek
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findAll(BasePagingRequest request) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findAll(BasePagingRequest request) {
         log.info(String.format(LOG_START, GET_ALL, REKENING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
         try {
             Page<RekeningEntity> data = rekeningRepository.findAll(pageRequest);

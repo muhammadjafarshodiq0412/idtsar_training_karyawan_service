@@ -4,7 +4,7 @@ import static com.trainingkaryawan.constant.GeneralConstant.*;
 
 import com.trainingkaryawan.entity.TrainingEntity;
 import com.trainingkaryawan.enums.ResponseType;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
 import com.trainingkaryawan.model.request.BasePagingRequest;
 import com.trainingkaryawan.model.request.training.TrainingSaveRequest;
 import com.trainingkaryawan.model.request.training.TrainingUpdateRequest;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, TrainingUpdateRequest, Pair<HttpStatus, GeneraleResponse<Object>>> {
+public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, TrainingUpdateRequest, Pair<HttpStatus, GeneralResponse<Object>>> {
     private final TrainingRepository trainingRepository;
     private final ResponseService responseService;
 
@@ -30,9 +30,9 @@ public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, Tra
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> save(TrainingSaveRequest data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> save(TrainingSaveRequest data) {
         log.info(String.format(LOG_START, SAVE, TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
         TrainingEntity entity = new TrainingEntity(data);
         try {
             entity = trainingRepository.save(entity);
@@ -46,9 +46,9 @@ public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, Tra
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> update(TrainingUpdateRequest data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> update(TrainingUpdateRequest data) {
         log.info(String.format(LOG_START, UPDATE, TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
         TrainingEntity entity = trainingRepository.findById(data.getId()).orElse(null);
         try {
             if (entity == null) {
@@ -69,9 +69,9 @@ public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, Tra
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> delete(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> delete(Long id) {
         log.info(String.format(LOG_START, DELETE, TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
         TrainingEntity data = trainingRepository.findById(id).orElse(null);
         try {
             if (data == null) {
@@ -90,9 +90,9 @@ public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, Tra
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findById(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findById(Long id) {
         log.info(String.format(LOG_START, GET_BY_ID, TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         try {
             TrainingEntity data = trainingRepository.findById(id).orElse(null);
             if (data == null) {
@@ -109,9 +109,9 @@ public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, Tra
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findAll(BasePagingRequest request) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findAll(BasePagingRequest request) {
         log.info(String.format(LOG_START, GET_ALL, TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
         try {
             Page<TrainingEntity> data = trainingRepository.findAll(pageRequest);

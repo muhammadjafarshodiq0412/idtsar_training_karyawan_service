@@ -1,13 +1,12 @@
 package com.trainingkaryawan.service.impl;
 
-import com.trainingkaryawan.constant.GeneralConstant;
 import com.trainingkaryawan.entity.DetailKaryawanEntity;
 import com.trainingkaryawan.entity.KaryawanEntity;
 import com.trainingkaryawan.enums.ResponseType;
 import com.trainingkaryawan.model.request.BasePagingRequest;
 import com.trainingkaryawan.model.request.karyawan.KaryawanSaveRequest;
 import com.trainingkaryawan.model.request.karyawan.KaryawanUpdateRequest;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
 import com.trainingkaryawan.repository.DetailKaryawanRepository;
 import com.trainingkaryawan.repository.KaryawanRepository;
 import com.trainingkaryawan.service.CrudService;
@@ -25,7 +24,7 @@ import static com.trainingkaryawan.constant.GeneralConstant.SAVE;
 
 @Slf4j
 @Service
-public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, KaryawanUpdateRequest, Pair<HttpStatus, GeneraleResponse<Object>>> {
+public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, KaryawanUpdateRequest, Pair<HttpStatus, GeneralResponse<Object>>> {
     private final KaryawanRepository karyawanRepository;
     private final DetailKaryawanRepository detailKaryawanRepository;
     private final ResponseService responseService;
@@ -37,9 +36,9 @@ public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, Kar
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> save(KaryawanSaveRequest data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> save(KaryawanSaveRequest data) {
         log.info(String.format(LOG_START, SAVE, KARYAWAN));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
         KaryawanEntity karyawan = new KaryawanEntity(data);
         DetailKaryawanEntity detailKaryawan = new DetailKaryawanEntity(data.getDetailKaryawan());
         try {
@@ -56,9 +55,9 @@ public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, Kar
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> update(KaryawanUpdateRequest data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> update(KaryawanUpdateRequest data) {
         log.info(String.format(LOG_START, UPDATE, KARYAWAN));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
         KaryawanEntity karyawan = karyawanRepository.findById(data.getId()).orElse(null);
         try {
             if (karyawan == null) {
@@ -85,9 +84,9 @@ public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, Kar
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> delete(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> delete(Long id) {
         log.info(String.format(LOG_START, DELETE, KARYAWAN));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
         KaryawanEntity data = karyawanRepository.findById(id).orElse(null);
         try {
             if (data == null) {
@@ -106,9 +105,9 @@ public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, Kar
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findById(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findById(Long id) {
         log.info(String.format(LOG_START, GET_BY_ID, KARYAWAN));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         try {
             KaryawanEntity data = karyawanRepository.findById(id).orElse(null);
             if (data == null) {
@@ -125,9 +124,9 @@ public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, Kar
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findAll(BasePagingRequest request) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findAll(BasePagingRequest request) {
         log.info(String.format(LOG_START, GET_ALL, KARYAWAN));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
         try {
             Page<KaryawanEntity> data = karyawanRepository.findAll(pageRequest);

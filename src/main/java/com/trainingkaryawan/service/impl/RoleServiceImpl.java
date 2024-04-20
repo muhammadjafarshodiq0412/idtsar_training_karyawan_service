@@ -5,7 +5,7 @@ import static com.trainingkaryawan.constant.GeneralConstant.*;
 import com.trainingkaryawan.entity.oauth.RoleEntity;
 import com.trainingkaryawan.enums.ResponseType;
 import com.trainingkaryawan.model.request.BasePagingRequest;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
 import com.trainingkaryawan.repository.RoleRepository;
 import com.trainingkaryawan.service.CrudService;
 import com.trainingkaryawan.service.ResponseService;
@@ -19,7 +19,7 @@ import org.springframework.util.ObjectUtils;
 
 @Slf4j
 @Service
-public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair<HttpStatus, GeneraleResponse<Object>>> {
+public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair<HttpStatus, GeneralResponse<Object>>> {
     private static final String ENTITY_NAME = "Role";
     private final RoleRepository roleRepository;
     private final ResponseService responseService;
@@ -30,9 +30,9 @@ public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> save(RoleEntity request) {
+    public Pair<HttpStatus, GeneralResponse<Object>> save(RoleEntity request) {
         log.info(String.format(LOG_START, SAVE, ENTITY_NAME));
-        Pair<HttpStatus, GeneraleResponse<Object>> response;
+        Pair<HttpStatus, GeneralResponse<Object>> response;
         RoleEntity data = null;
         try {
             request.setName(request.getName());
@@ -49,9 +49,9 @@ public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> update(RoleEntity request) {
+    public Pair<HttpStatus, GeneralResponse<Object>> update(RoleEntity request) {
         log.info(String.format(LOG_START, UPDATE, ENTITY_NAME));
-        Pair<HttpStatus, GeneraleResponse<Object>> response;
+        Pair<HttpStatus, GeneralResponse<Object>> response;
         RoleEntity data = roleRepository.findById(request.getId()).orElse(null);
         try {
             if (ObjectUtils.isEmpty(data)) {
@@ -70,9 +70,9 @@ public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> delete(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> delete(Long id) {
         log.info(String.format(LOG_START, DELETE, ENTITY_NAME));
-        Pair<HttpStatus, GeneraleResponse<Object>> response;
+        Pair<HttpStatus, GeneralResponse<Object>> response;
         RoleEntity data = roleRepository.findById(id).orElse(null);
         try {
             if (ObjectUtils.isEmpty(data)) {
@@ -91,9 +91,9 @@ public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findById(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findById(Long id) {
         log.info(String.format(LOG_START, GET_BY_ID, ENTITY_NAME));
-        Pair<HttpStatus, GeneraleResponse<Object>> response;
+        Pair<HttpStatus, GeneralResponse<Object>> response;
         try {
             RoleEntity data = roleRepository.findById(id).orElse(null);
             if (ObjectUtils.isEmpty(data)) {
@@ -111,9 +111,9 @@ public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findAll(BasePagingRequest request) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findAll(BasePagingRequest request) {
         log.info(String.format(LOG_START, GET_ALL, ENTITY_NAME));
-        Pair<HttpStatus, GeneraleResponse<Object>> response;
+        Pair<HttpStatus, GeneralResponse<Object>> response;
         try {
             PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
             Page<RoleEntity> data = roleRepository.findAll(pageRequest);

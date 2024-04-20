@@ -2,7 +2,7 @@ package com.trainingkaryawan.controller;
 
 import com.trainingkaryawan.enums.ResponseType;
 import com.trainingkaryawan.model.request.AuthRequest;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
 import com.trainingkaryawan.service.ResponseService;
 import com.trainingkaryawan.service.impl.AuthenticationServiceImpl;
 import com.trainingkaryawan.util.JsonUtil;
@@ -27,14 +27,20 @@ public class AuthenticationController {
 
     @GetMapping("/ping")
     public ResponseEntity<Object> ping(){
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateSuccessResponse(ResponseType.SUCCESS_PING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateSuccessResponse(ResponseType.SUCCESS_PING, null);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody AuthRequest request){
         log.info("incoming get token with request {}", JsonUtil.getString(request));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = authenticationService.getToken(request);
+        Pair<HttpStatus, GeneralResponse<Object>> response = authenticationService.getToken(request);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
+    }
+
+
+    @PostMapping("/signin_google")
+    public ResponseEntity<Object> signInGoogle(@RequestParam String accessToken){
+        return null;
     }
 }

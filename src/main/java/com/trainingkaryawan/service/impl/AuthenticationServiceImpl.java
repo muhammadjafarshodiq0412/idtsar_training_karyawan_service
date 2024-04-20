@@ -1,12 +1,10 @@
 package com.trainingkaryawan.service.impl;
 
-import com.trainingkaryawan.constant.GeneralConstant;
 import com.trainingkaryawan.entity.oauth.UserEntity;
 import com.trainingkaryawan.enums.ResponseType;
 import com.trainingkaryawan.model.request.AuthRequest;
-import com.trainingkaryawan.model.response.AuthReponse;
 import com.trainingkaryawan.model.response.ClaimUserDetailsModel;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
 import com.trainingkaryawan.repository.UserRepository;
 import com.trainingkaryawan.service.ResponseService;
 import com.trainingkaryawan.util.JwtUtil;
@@ -37,11 +35,11 @@ public class AuthenticationServiceImpl {
         this.responseService = responseService;
     }
 
-    public Pair<HttpStatus, GeneraleResponse<Object>> getToken(AuthRequest request) {
+    public Pair<HttpStatus, GeneralResponse<Object>> getToken(AuthRequest request) {
         log.info("start get token");
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+           authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             UserEntity userEntity = userRepository.findByUsername(request.getUsername()).orElse(null);
             if (ObjectUtils.isEmpty(userEntity)) {
                 return responseService.generateErrorDataNotFound();

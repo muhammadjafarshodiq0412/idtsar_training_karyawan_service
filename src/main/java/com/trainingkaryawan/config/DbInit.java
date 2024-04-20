@@ -42,17 +42,21 @@ public class DbInit implements ApplicationListener<ContextRefreshedEvent> {
         RoleEntity roleSecretary = roleRepository.save(new RoleEntity("SECRETARY", "Role Secretary"));
         RoleEntity roleEmployee = roleRepository.save(new RoleEntity("EMPLOYEE", "Role Employee"));
 
-        UserEntity user1 = new UserEntity("superadmin", "superadmin@gmail.com", "Gita");
+        UserEntity user1 = new UserEntity("superadmin", "mohamad.faqih@idstar.co.id", "Gita");
         user1.setPassword("123");
+        user1.setIsActive(true);
         user1.setRoles(List.of(roleSuperUser));
         UserEntity user2 = new UserEntity("admin", "admin@gmail.com", "Vina");
         user2.setPassword("123");
+        user2.setIsActive(false);
         user2.setRoles(List.of(roleAdmin));
         UserEntity user3 = new UserEntity("secretary", "secretary@gmail.com", "Via");
         user3.setPassword("123");
+        user3.setIsActive(false);
         user3.setRoles(List.of(roleSecretary));
         UserEntity user4 = new UserEntity("employee", "employee@gmail.com", "Heru");
         user4.setPassword("123");
+        user4.setIsActive(false);
         user4.setRoles(List.of(roleEmployee));
 
         userService.save(user1);

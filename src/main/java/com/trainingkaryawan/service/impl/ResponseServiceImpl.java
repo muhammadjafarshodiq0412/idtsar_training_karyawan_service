@@ -1,7 +1,8 @@
 package com.trainingkaryawan.service.impl;
 
 import com.trainingkaryawan.enums.ResponseType;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
+import com.trainingkaryawan.model.response.MessageResponse;
 import com.trainingkaryawan.service.ResponseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.util.Pair;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class ResponseServiceImpl implements ResponseService {
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> generateErrorResponse(ResponseType type, @Nullable Object data, String... messages) {
+    public Pair<HttpStatus, GeneralResponse<Object>> generateErrorResponse(ResponseType type, @Nullable Object data, String... messages) {
         String messageEn;
         String messageId;
 
@@ -59,15 +60,19 @@ public class ResponseServiceImpl implements ResponseService {
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> generateSuccessResponse(ResponseType type, Object data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> generateSuccessResponse(ResponseType type, Object data) {
         return getHttpStatusGeneralResponsePair(type, data);
     }
 
-    private Pair<HttpStatus, GeneraleResponse<Object>> getHttpStatusGeneralResponsePair(ResponseType type, Object data) {
+    private Pair<HttpStatus, GeneralResponse<Object>> getHttpStatusGeneralResponsePair(ResponseType type, Object data) {
+        MessageResponse messageResponse = new MessageResponse(
+                type.getDescriptionEn(), type.getDescriptionId()
+        );
 
-        GeneraleResponse<Object> response = new GeneraleResponse<>(
+        GeneralResponse<Object> response = new GeneralResponse<>(
                 type.getMessageCode(),
                 type.getResponseStatus().getMessage(),
+                messageResponse,
                 data
         );
 
@@ -76,28 +81,32 @@ public class ResponseServiceImpl implements ResponseService {
     }
 
     @Override
-    public ResponseEntity<Object> toResponseEntity(Pair<HttpStatus, GeneraleResponse<Object>> response) {
+    public ResponseEntity<Object> toResponseEntity(Pair<HttpStatus, GeneralResponse<Object>> response) {
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
 
     @Override
-    public Map<String, Object> toMap(Pair<HttpStatus, GeneraleResponse<Object>> response) {
-        GeneraleResponse<Object> boostResponse = response.getSecond();
+    public Map<String, Object> toMap(Pair<HttpStatus, GeneralResponse<Object>> response) {
+        GeneralResponse<Object> boostResponse = response.getSecond();
 
         Map<String, Object> map = new HashMap<>();
         map.put("code", boostResponse.getCode());
         map.put("status", boostResponse.getStatus());
+        map.put("message", boostResponse.getMessage());
         map.put("data", boostResponse.getData());
 
         return map;
     }
 
-    private Pair<HttpStatus, GeneraleResponse<Object>> processErrorResponse(ResponseType type, Object data, String messageEn, String messageId) {
+    private Pair<HttpStatus, GeneralResponse<Object>> processErrorResponse(ResponseType type, Object data, String messageEn, String messageId) {
+        MessageResponse messageResponse = new MessageResponse(
+                messageEn, messageId
+        );
 
-
-        GeneraleResponse<Object> response = new GeneraleResponse<>(
+        GeneralResponse<Object> response = new GeneralResponse<>(
                type.getMessageCode(),
                 type.getResponseStatus().getMessage(),
+                messageResponse,
                 data
         );
 
@@ -105,12 +114,12 @@ public class ResponseServiceImpl implements ResponseService {
         return Pair.of(status, response);
     }
 
-    private Pair<HttpStatus, GeneraleResponse<Object>> processDefaultErrorResponse(ResponseType type, Object data) {
+    private Pair<HttpStatus, GeneralResponse<Object>> processDefaultErrorResponse(ResponseType type, Object data) {
         return getHttpStatusGeneralResponsePair(type, data);
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> generateErrorDataNotFound(String... message){
+    public Pair<HttpStatus, GeneralResponse<Object>> generateErrorDataNotFound(String... message){
         return generateErrorResponse(ResponseType.DATA_NOT_FOUND, message);
     }
 }

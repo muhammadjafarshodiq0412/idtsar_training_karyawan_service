@@ -1,19 +1,15 @@
 package com.trainingkaryawan.model.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class GeneraleResponse<E> {
-
+@AllArgsConstructor
+public class GeneralResponse<E> {
     private int code;
     private String status;
+    private MessageResponse message;
     private E data;
-
-    public GeneraleResponse(int code, String status, E data) {
-        this.code = code;
-        this.status = status;
-        this.data = data;
-    }
 }

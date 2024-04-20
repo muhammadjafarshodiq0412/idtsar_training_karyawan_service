@@ -4,7 +4,7 @@ import com.trainingkaryawan.model.request.BasePagingRequest;
 import com.trainingkaryawan.model.request.DeleteRequest;
 import com.trainingkaryawan.model.request.karyawan.KaryawanSaveRequest;
 import com.trainingkaryawan.model.request.karyawan.KaryawanUpdateRequest;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
 import com.trainingkaryawan.service.impl.KaryawanServiceImpl;
 import com.trainingkaryawan.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class KaryawanController implements CrudController<KaryawanSaveRequest, B
     @Override
     public ResponseEntity<Object> create(@RequestBody KaryawanSaveRequest request) {
         log.info("incoming request save {} with request {}", KARYAWAN, JsonUtil.getString(request));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = karyawanService.save(request);
+        Pair<HttpStatus, GeneralResponse<Object>> response = karyawanService.save(request);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
 
@@ -43,7 +43,7 @@ public class KaryawanController implements CrudController<KaryawanSaveRequest, B
             @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
         log.info("incoming request getAll {} with request page {} size {}", KARYAWAN, page, size);
         BasePagingRequest request = new BasePagingRequest(page, size);
-        Pair<HttpStatus, GeneraleResponse<Object>> response = karyawanService.findAll(request);
+        Pair<HttpStatus, GeneralResponse<Object>> response = karyawanService.findAll(request);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
 
@@ -51,7 +51,7 @@ public class KaryawanController implements CrudController<KaryawanSaveRequest, B
     @Override
     public ResponseEntity<Object> update(@RequestBody KaryawanUpdateRequest request) {
         log.info("incoming request update {} with request {}", KARYAWAN, JsonUtil.getString(request));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = karyawanService.update(request);
+        Pair<HttpStatus, GeneralResponse<Object>> response = karyawanService.update(request);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
 
@@ -59,7 +59,7 @@ public class KaryawanController implements CrudController<KaryawanSaveRequest, B
     @Override
     public ResponseEntity<Object> delete(@RequestBody DeleteRequest request) {
         log.info("incoming request delete {} for id {}", KARYAWAN, request);
-        Pair<HttpStatus, GeneraleResponse<Object>> response = karyawanService.delete(request.getId());
+        Pair<HttpStatus, GeneralResponse<Object>> response = karyawanService.delete(request.getId());
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
 
@@ -67,7 +67,7 @@ public class KaryawanController implements CrudController<KaryawanSaveRequest, B
     @Override
     public ResponseEntity<Object> getById(@PathVariable(name = "id") Long id) {
         log.info("incoming request getById {} for id {}", KARYAWAN, id);
-        Pair<HttpStatus, GeneraleResponse<Object>> response = karyawanService.findById(id);
+        Pair<HttpStatus, GeneralResponse<Object>> response = karyawanService.findById(id);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
 }

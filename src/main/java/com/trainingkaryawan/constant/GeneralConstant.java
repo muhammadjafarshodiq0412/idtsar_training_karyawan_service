@@ -12,6 +12,8 @@ public class GeneralConstant {
     public static final String KARYAWAN = "karyawan";
     public static final String KARYAWAN_TRAINING = "karyawan training";
     public static final String REKENING = "rekening";
+    public static final String OTP = "otp";
+    public static final String USER = "user";
     public static final String LOG_START = "start %s %s";
     public static final String LOG_USER_NOT_AUTHENTICATED = "User not authenticated";
     public static final String LOG_USER_AUTHENTICATED = "User authenticated";
@@ -21,6 +23,7 @@ public class GeneralConstant {
     public static final String LOG_ERROR_NOT_FOUND= "%s not found";
     public static final String SAVE = "save";
     public static final String UPDATE = "update";
+    public static final String VALIDATE_OTP = "validate otp";
     public static final String DELETE = "delete";
     public static final String GET_BY_ID = "get by id";
     public static final String GET_ALL = "get all";

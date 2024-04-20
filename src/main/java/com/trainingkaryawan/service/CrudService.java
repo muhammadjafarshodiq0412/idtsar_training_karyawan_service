@@ -2,7 +2,6 @@ package com.trainingkaryawan.service;
 
 
 import com.trainingkaryawan.model.request.BasePagingRequest;
-import com.trainingkaryawan.model.request.BasePagingRequest;
 
 public interface CrudService<S, U, R> {
     R save(S data);

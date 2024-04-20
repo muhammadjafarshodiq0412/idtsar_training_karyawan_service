@@ -1,11 +1,9 @@
 package com.trainingkaryawan.service.impl;
 
-import com.trainingkaryawan.entity.TrainingEntity;
-import com.trainingkaryawan.entity.oauth.RoleEntity;
 import com.trainingkaryawan.entity.oauth.UserEntity;
 import com.trainingkaryawan.enums.ResponseType;
 import com.trainingkaryawan.model.request.BasePagingRequest;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
 import com.trainingkaryawan.repository.RoleRepository;
 import com.trainingkaryawan.repository.UserRepository;
 import com.trainingkaryawan.service.CrudService;
@@ -32,7 +30,7 @@ import static com.trainingkaryawan.constant.GeneralConstant.*;
 
 @Slf4j
 @Service
-public class UserServiceImpl implements UserService, CrudService<UserEntity, UserEntity, Pair<HttpStatus, GeneraleResponse<Object>>>, UserDetailsService {
+public class UserServiceImpl implements UserService, CrudService<UserEntity, UserEntity, Pair<HttpStatus, GeneralResponse<Object>>>, UserDetailsService {
     private static final String entityName = "user";
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -52,9 +50,9 @@ public class UserServiceImpl implements UserService, CrudService<UserEntity, Use
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> save(UserEntity data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> save(UserEntity data) {
         log.info(String.format(LOG_START, SAVE, entityName));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
         try {
             data.setPassword(passwordEncoder.encode(data.getPassword()));
             UserEntity entity = userRepository.save(data);
@@ -68,9 +66,9 @@ public class UserServiceImpl implements UserService, CrudService<UserEntity, Use
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> update(UserEntity data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> update(UserEntity data) {
         log.info(String.format(LOG_START, UPDATE, entityName));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
         UserEntity entity = userRepository.findById(data.getId()).orElse(null);
         try {
             if (entity == null) {
@@ -94,9 +92,9 @@ public class UserServiceImpl implements UserService, CrudService<UserEntity, Use
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> delete(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> delete(Long id) {
         log.info(String.format(LOG_START, DELETE, entityName));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
         UserEntity data = userRepository.findById(id).orElse(null);
         try {
             if (data == null) {
@@ -115,9 +113,9 @@ public class UserServiceImpl implements UserService, CrudService<UserEntity, Use
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findById(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findById(Long id) {
         log.info(String.format(LOG_START, GET_BY_ID, entityName));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         try {
             UserEntity data = userRepository.findById(id).orElse(null);
             if (data == null) {
@@ -134,9 +132,9 @@ public class UserServiceImpl implements UserService, CrudService<UserEntity, Use
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findAll(BasePagingRequest request) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findAll(BasePagingRequest request) {
         log.info(String.format(LOG_START, GET_ALL, entityName));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
         try {
             Page<UserEntity> data = userRepository.findAll(pageRequest);

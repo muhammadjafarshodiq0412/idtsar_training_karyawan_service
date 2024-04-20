@@ -8,7 +8,7 @@ import com.trainingkaryawan.enums.ResponseType;
 import com.trainingkaryawan.model.request.BasePagingRequest;
 import com.trainingkaryawan.model.request.karyawan_training.KaryawanTrainingSaveRequest;
 import com.trainingkaryawan.model.request.karyawan_training.KaryawanTrainingUpdateRequest;
-import com.trainingkaryawan.model.response.GeneraleResponse;
+import com.trainingkaryawan.model.response.GeneralResponse;
 import com.trainingkaryawan.repository.KaryawanRepository;
 import com.trainingkaryawan.repository.KaryawanTrainingRepository;
 import com.trainingkaryawan.repository.TrainingRepository;
@@ -28,7 +28,7 @@ import static com.trainingkaryawan.constant.GeneralConstant.*;
 
 @Slf4j
 @Service
-public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTrainingSaveRequest, KaryawanTrainingUpdateRequest, Pair<HttpStatus, GeneraleResponse<Object>>> {
+public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTrainingSaveRequest, KaryawanTrainingUpdateRequest, Pair<HttpStatus, GeneralResponse<Object>>> {
     private final KaryawanRepository karyawanRepository;
     private final TrainingRepository trainingRepository;
     private final KaryawanTrainingRepository karyawanTrainingRepository;
@@ -43,9 +43,9 @@ public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTraining
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> save(KaryawanTrainingSaveRequest data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> save(KaryawanTrainingSaveRequest data) {
         log.info(String.format(LOG_START, SAVE, KARYAWAN_TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SAVING, null);
         KaryawanTrainingEntity karyawanTraining = new KaryawanTrainingEntity(data);
         try {
             KaryawanEntity karyawan = karyawanRepository.findById(data.getKaryawan()).orElse(null);
@@ -72,9 +72,9 @@ public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTraining
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> update(KaryawanTrainingUpdateRequest data) {
+    public Pair<HttpStatus, GeneralResponse<Object>> update(KaryawanTrainingUpdateRequest data) {
         log.info(String.format(LOG_START, UPDATE, KARYAWAN_TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_UPDATING, null);
         KaryawanTrainingEntity karyawanTraining = karyawanTrainingRepository.findById(data.getId()).orElse(null);
         try {
             if (karyawanTraining == null) {
@@ -107,9 +107,9 @@ public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTraining
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> delete(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> delete(Long id) {
         log.info(String.format(LOG_START, DELETE, KARYAWAN_TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_DELETING, null);
         KaryawanTrainingEntity data = karyawanTrainingRepository.findById(id).orElse(null);
         try {
             if (data == null) {
@@ -127,9 +127,9 @@ public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTraining
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findById(Long id) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findById(Long id) {
         log.info(String.format(LOG_START, GET_BY_ID, KARYAWAN_TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         try {
             KaryawanTrainingEntity data = karyawanTrainingRepository.findById(id).orElse(null);
             if (ObjectUtils.isEmpty(data)) {
@@ -147,9 +147,9 @@ public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTraining
     }
 
     @Override
-    public Pair<HttpStatus, GeneraleResponse<Object>> findAll(BasePagingRequest request) {
+    public Pair<HttpStatus, GeneralResponse<Object>> findAll(BasePagingRequest request) {
         log.info(String.format(LOG_START, GET_ALL, KARYAWAN_TRAINING));
-        Pair<HttpStatus, GeneraleResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_FIND_DATA, null);
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
         try {
             Page<KaryawanTrainingEntity> data = karyawanTrainingRepository.findAll(pageRequest);

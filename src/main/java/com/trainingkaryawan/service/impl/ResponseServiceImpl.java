@@ -120,6 +120,6 @@ public class ResponseServiceImpl implements ResponseService {
 
     @Override
     public Pair<HttpStatus, GeneralResponse<Object>> generateErrorDataNotFound(String... message){
-        return generateErrorResponse(ResponseType.DATA_NOT_FOUND, message);
+        return generateErrorResponse(ResponseType.DATA_NOT_FOUND, null, message);
     }
 }

@@ -4,6 +4,7 @@ import com.trainingkaryawan.entity.OtpEntity;
 import com.trainingkaryawan.entity.oauth.UserEntity;
 import com.trainingkaryawan.enums.ResponseType;
 import com.trainingkaryawan.model.request.BasePagingRequest;
+import com.trainingkaryawan.model.request.otp.ChangePasswordRequest;
 import com.trainingkaryawan.model.request.otp.SendOtpRequest;
 import com.trainingkaryawan.model.request.otp.ValidateOtpRequest;
 import com.trainingkaryawan.model.response.GeneralResponse;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -32,18 +34,20 @@ public class OtpServiceImpl implements CrudService<OtpEntity, OtpEntity, Pair<Ht
     private final ResponseService responseService;
     private final EmailServiceImpl mailService;
     private final OTPGenerator otpGenerator;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${template.email.request.otp}")
     private String templateEmailRequestOtp;
 
     @Autowired
     public OtpServiceImpl(OtpRepository otpRepository, UserRepository userRepository, ResponseService responseService,
-                          EmailServiceImpl mailService, OTPGenerator otpGenerator) {
+                          EmailServiceImpl mailService, OTPGenerator otpGenerator, PasswordEncoder passwordEncoder) {
         this.otpRepository = otpRepository;
         this.userRepository = userRepository;
         this.responseService = responseService;
         this.mailService = mailService;
         this.otpGenerator = otpGenerator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -72,7 +76,7 @@ public class OtpServiceImpl implements CrudService<OtpEntity, OtpEntity, Pair<Ht
         try {
             if (ObjectUtils.isEmpty(otpEntity)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, OTP));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(OTP_ENTITY_NAME);
             }
             otpEntity.setVerified(true);
             otpRepository.save(otpEntity);
@@ -93,7 +97,7 @@ public class OtpServiceImpl implements CrudService<OtpEntity, OtpEntity, Pair<Ht
             UserEntity userEntity = userRepository.findByEmail(request.getEmail()).orElse(null);
             if (ObjectUtils.isEmpty(userEntity)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, USER));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(USER_ENTITY_NAME);
             }
 
             OtpEntity otpEntity = otpRepository.findByEmail(request.getEmail()).orElse(null);
@@ -109,7 +113,7 @@ public class OtpServiceImpl implements CrudService<OtpEntity, OtpEntity, Pair<Ht
             } else {
                 otpEntity.setOtp(otpGenerator.generateOTP());
                 otpEntity.setVerified(false);
-                otpEntity.setExpirationTime(TimeUtil.calculateExpirationTime(1));
+                otpEntity.setExpirationTime(TimeUtil.calculateExpirationTime(5));
                 otpEntity = otpRepository.save(otpEntity);
             }
             templateEmailRequestOtp = templateEmailRequestOtp.replace("{fullname}", userEntity.getFullName());
@@ -131,7 +135,7 @@ public class OtpServiceImpl implements CrudService<OtpEntity, OtpEntity, Pair<Ht
             OtpEntity otpEntity = otpRepository.findByEmailAndOtp(request.getEmail(), request.getOtp()).orElse(null);
             if (ObjectUtils.isEmpty(otpEntity)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, OTP));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(OTP_ENTITY_NAME);
             }
             boolean expired = TimeUtil.isExpired(otpEntity.getExpirationTime());
             if (expired) {
@@ -145,6 +149,39 @@ public class OtpServiceImpl implements CrudService<OtpEntity, OtpEntity, Pair<Ht
             log.error(String.format(LOG_ERROR, VALIDATE_OTP, "", e.getMessage()), e);
         } finally {
             log.info(String.format(LOG_END, VALIDATE_OTP, ""));
+        }
+        return response;
+    }
+
+    public Pair<HttpStatus, GeneralResponse<Object>> changePassword(ChangePasswordRequest request) {
+        log.info(String.format(LOG_START, CHANGE_PASSWORD, ""));
+        Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_VALIDATE_OTP, null);
+        try {
+            OtpEntity otpEntity = otpRepository.findByEmailAndOtp(request.getEmail(), request.getOtp()).orElse(null);
+            if (ObjectUtils.isEmpty(otpEntity)) {
+                log.info(String.format(LOG_ERROR_NOT_FOUND, OTP));
+                return responseService.generateErrorDataNotFound(OTP_ENTITY_NAME);
+            }else if(!otpEntity.isVerified()){
+                log.info("otp not verified");
+                return responseService.generateErrorResponse(ResponseType.FAILED_VALIDATE_OTP_NOT_VERIFIED, null);
+            }else if(!request.getNewPassword().equals(request.getConfirmNewPassword())){
+                log.info("new password and confirm new password not match");
+                return responseService.generateErrorResponse(ResponseType.FAILED_PASSWORD_NOT_MATCH, null);
+            }
+
+            UserEntity userEntity = userRepository.findByEmail(request.getEmail()).orElse(null);
+            if (ObjectUtils.isEmpty(userEntity)) {
+                log.info(String.format(LOG_ERROR_NOT_FOUND, USER));
+                return responseService.generateErrorDataNotFound(USER_ENTITY_NAME);
+            }
+
+            userEntity.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(userEntity);
+            response = responseService.generateSuccessResponse(ResponseType.SUCCESS_CHANGE_PASSWORD, null);
+        } catch (Exception e) {
+            log.error(String.format(LOG_ERROR, CHANGE_PASSWORD, "", e.getMessage()), e);
+        } finally {
+            log.info(String.format(LOG_END, CHANGE_PASSWORD, ""));
         }
         return response;
     }

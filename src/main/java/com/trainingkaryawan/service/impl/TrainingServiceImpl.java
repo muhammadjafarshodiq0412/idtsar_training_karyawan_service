@@ -53,7 +53,7 @@ public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, Tra
         try {
             if (entity == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, TRAINING));
-                response = responseService.generateErrorDataNotFound();
+                response = responseService.generateErrorDataNotFound(TRAINING_ENTITY_NAME);
             } else {
                 entity.setPengajar(data.getPengajar());
                 entity.setTema(data.getTema());
@@ -76,7 +76,7 @@ public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, Tra
         try {
             if (data == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, TRAINING));
-                response = responseService.generateErrorDataNotFound();
+                response = responseService.generateErrorDataNotFound(TRAINING_ENTITY_NAME);
             } else {
                 trainingRepository.delete(data);
                 response = responseService.generateSuccessResponse(ResponseType.SUCCESS_UPDATE, null);
@@ -97,7 +97,7 @@ public class TrainingServiceImpl implements CrudService<TrainingSaveRequest, Tra
             TrainingEntity data = trainingRepository.findById(id).orElse(null);
             if (data == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, TRAINING));
-                response = responseService.generateErrorDataNotFound();
+                response = responseService.generateErrorDataNotFound(TRAINING_ENTITY_NAME);
             }
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_DATA_FOUND, data);
         } catch (Exception e) {

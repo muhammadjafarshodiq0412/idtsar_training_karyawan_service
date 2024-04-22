@@ -56,7 +56,7 @@ public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair
         try {
             if (ObjectUtils.isEmpty(data)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, ENTITY_NAME));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(ROLE_ENTITY_NAME);
             }
             data = roleRepository.save(request);
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_UPDATE, data);
@@ -77,7 +77,7 @@ public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair
         try {
             if (ObjectUtils.isEmpty(data)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, ENTITY_NAME));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(ROLE_ENTITY_NAME);
             }
             roleRepository.delete(data);
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_DELETE, data);
@@ -98,7 +98,7 @@ public class RoleServiceImpl implements CrudService<RoleEntity, RoleEntity, Pair
             RoleEntity data = roleRepository.findById(id).orElse(null);
             if (ObjectUtils.isEmpty(data)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, ENTITY_NAME));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(ROLE_ENTITY_NAME);
             }
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_DATA_FOUND, data);
         } catch (Exception e) {

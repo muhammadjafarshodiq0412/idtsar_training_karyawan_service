@@ -1,5 +1,6 @@
 package com.trainingkaryawan.controller;
 
+import com.trainingkaryawan.model.request.otp.ChangePasswordRequest;
 import com.trainingkaryawan.model.request.otp.SendOtpRequest;
 import com.trainingkaryawan.model.request.otp.ValidateOtpRequest;
 import com.trainingkaryawan.model.response.GeneralResponse;
@@ -36,6 +37,13 @@ public class PasswordController {
     public ResponseEntity<Object> validateOtp(@RequestBody ValidateOtpRequest request){
         log.info("incoming request update request otp with request {}", JsonUtil.getString(request));
         Pair<HttpStatus, GeneralResponse<Object>> response = otpService.validateOtp(request);
+        return new ResponseEntity<>(response.getSecond(), response.getFirst());
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Object> changePassword(@RequestBody ChangePasswordRequest request){
+        log.info("incoming request update request otp with request {}", JsonUtil.getString(request));
+        Pair<HttpStatus, GeneralResponse<Object>> response = otpService.changePassword(request);
         return new ResponseEntity<>(response.getSecond(), response.getFirst());
     }
 }

@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService, CrudService<UserEntity, Use
         try {
             if (entity == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, entityName));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(USER_ENTITY_NAME);
             }
             BeanUtils.copyProperties(data, entity, "roles", "password");
             if (!ObjectUtils.isEmpty(data.getPassword())) {
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService, CrudService<UserEntity, Use
         try {
             if (data == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, entityName));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(USER_ENTITY_NAME);
             }
             data.getRoles().stream().map(roleEntity -> roleRepository.findById(roleEntity.getId())).filter(Optional::isPresent).map(Optional::get).forEach(data::removeRole);
             userRepository.delete(data);
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService, CrudService<UserEntity, Use
             UserEntity data = userRepository.findById(id).orElse(null);
             if (data == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, entityName));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(USER_ENTITY_NAME);
             }
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_DATA_FOUND, data);
         } catch (Exception e) {

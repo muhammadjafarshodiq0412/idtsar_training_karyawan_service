@@ -1,5 +1,6 @@
 package com.trainingkaryawan.service.impl;
 
+import static com.trainingkaryawan.constant.GeneralConstant.*;
 import com.trainingkaryawan.entity.oauth.UserEntity;
 import com.trainingkaryawan.enums.ResponseType;
 import com.trainingkaryawan.model.request.AuthRequest;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -42,7 +42,7 @@ public class AuthenticationServiceImpl {
            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             UserEntity userEntity = userRepository.findByUsername(request.getUsername()).orElse(null);
             if (ObjectUtils.isEmpty(userEntity)) {
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(USER_ENTITY_NAME);
             }
             if (userEntity.getIsActive() == Boolean.FALSE) {
                 return responseService.generateErrorResponse(ResponseType.USER_NOT_ACTIVATED, null);
@@ -55,8 +55,7 @@ public class AuthenticationServiceImpl {
             if (e instanceof BadCredentialsException) {
                 return responseService.generateErrorResponse(ResponseType.INCORRECT_CREDENTIAL, null);
             }
-
-            response = responseService.generateErrorDataNotFound();
+            response = responseService.generateErrorDataNotFound(USER_ENTITY_NAME);
         }
 
         log.info("end get token");

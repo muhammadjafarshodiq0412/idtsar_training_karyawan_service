@@ -62,7 +62,7 @@ public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, Kar
         try {
             if (karyawan == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN));
-                response = responseService.generateErrorDataNotFound();
+                response = responseService.generateErrorDataNotFound(EMPLOYEE_ENTITY_NAME);
             } else {
                 karyawan.getDetailKaryawan().setNik(data.getDetailKaryawan().getNik());
                 karyawan.getDetailKaryawan().setNpwp(data.getDetailKaryawan().getNpwp());
@@ -91,7 +91,7 @@ public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, Kar
         try {
             if (data == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN));
-                response = responseService.generateErrorDataNotFound();
+                response = responseService.generateErrorDataNotFound(EMPLOYEE_ENTITY_NAME);
             } else {
                 karyawanRepository.delete(data);
                 response = responseService.generateSuccessResponse(ResponseType.SUCCESS_UPDATE, null);
@@ -112,7 +112,7 @@ public class KaryawanServiceImpl implements CrudService<KaryawanSaveRequest, Kar
             KaryawanEntity data = karyawanRepository.findById(id).orElse(null);
             if (data == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN));
-                response = responseService.generateErrorDataNotFound();
+                response = responseService.generateErrorDataNotFound(EMPLOYEE_ENTITY_NAME);
             }
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_DATA_FOUND, data);
         } catch (Exception e) {

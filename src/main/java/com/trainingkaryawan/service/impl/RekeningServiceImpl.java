@@ -45,7 +45,7 @@ public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, Rek
             KaryawanEntity karyawan = karyawanRepository.findById(data.getKaryawan()).orElse(null);
             if(ObjectUtils.isEmpty(karyawan)){
                 log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(EMPLOYEE_ENTITY_NAME);
             }
             rekening.setKaryawan(karyawan);
             rekening = rekeningRepository.save(rekening);
@@ -66,12 +66,12 @@ public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, Rek
         try {
             if (rekening == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, REKENING));
-                response = responseService.generateErrorDataNotFound();
+                response = responseService.generateErrorDataNotFound(REKENING_ENTITY_NAME);
             } else {
                 KaryawanEntity karyawan = karyawanRepository.findById(data.getKaryawan()).orElse(null);
                 if(ObjectUtils.isEmpty(karyawan)){
                     log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN));
-                    response = responseService.generateErrorDataNotFound();
+                    response = responseService.generateErrorDataNotFound(EMPLOYEE_ENTITY_NAME);
                 }
                 rekening.setRekening(data.getRekening());
                 rekening.setJenis(data.getJenis());
@@ -96,7 +96,7 @@ public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, Rek
         try {
             if (data == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, REKENING));
-                response = responseService.generateErrorDataNotFound();
+                response = responseService.generateErrorDataNotFound(REKENING_ENTITY_NAME);
             } else {
                 rekeningRepository.delete(data);
                 response = responseService.generateSuccessResponse(ResponseType.SUCCESS_UPDATE, null);
@@ -117,7 +117,7 @@ public class RekeningServiceImpl implements CrudService<RekeningSaveRequest, Rek
             RekeningEntity data = rekeningRepository.findById(id).orElse(null);
             if (ObjectUtils.isEmpty(data)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, REKENING));
-                response = responseService.generateErrorDataNotFound();
+                response = responseService.generateErrorDataNotFound(REKENING_ENTITY_NAME);
             } else {
                 response = responseService.generateSuccessResponse(ResponseType.SUCCESS_DATA_FOUND, new RekeningResponse(data, new KaryawanModel(data.getKaryawan())));
             }

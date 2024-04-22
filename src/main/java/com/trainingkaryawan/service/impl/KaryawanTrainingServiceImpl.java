@@ -51,12 +51,12 @@ public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTraining
             KaryawanEntity karyawan = karyawanRepository.findById(data.getKaryawan()).orElse(null);
             if (ObjectUtils.isEmpty(karyawan)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(EMPLOYEE_ENTITY_NAME);
             }
             TrainingEntity training = trainingRepository.findById(data.getTraining()).orElse(null);
             if (ObjectUtils.isEmpty(training)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, TRAINING));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(TRAINING_ENTITY_NAME);
             }
             karyawanTraining.setKaryawan(karyawan);
             karyawanTraining.setTraining(training);
@@ -79,17 +79,17 @@ public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTraining
         try {
             if (karyawanTraining == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN_TRAINING));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(EMPLOYEE_TRAINING_ENTITY_NAME);
             }
             KaryawanEntity karyawan = karyawanRepository.findById(data.getKaryawan()).orElse(null);
             if (ObjectUtils.isEmpty(karyawan)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(EMPLOYEE_ENTITY_NAME);
             }
             TrainingEntity training = trainingRepository.findById(data.getTraining()).orElse(null);
             if (ObjectUtils.isEmpty(training)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, TRAINING));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(TRAINING_ENTITY_NAME);
             }
             karyawanTraining.setTanggal(DateUtil.stringToDate(data.getTanggal(), GeneralConstant.YYYY_MM_DD_HH_MM_SS));
             karyawanTraining.setKaryawan(karyawan);
@@ -114,7 +114,7 @@ public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTraining
         try {
             if (data == null) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN_TRAINING));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(EMPLOYEE_TRAINING_ENTITY_NAME);
             }
             karyawanTrainingRepository.delete(data);
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_DELETE, null);
@@ -134,7 +134,7 @@ public class KaryawanTrainingServiceImpl implements CrudService<KaryawanTraining
             KaryawanTrainingEntity data = karyawanTrainingRepository.findById(id).orElse(null);
             if (ObjectUtils.isEmpty(data)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, KARYAWAN_TRAINING));
-                return responseService.generateErrorDataNotFound();
+                return responseService.generateErrorDataNotFound(EMPLOYEE_TRAINING_ENTITY_NAME);
             }
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_DATA_FOUND, data);
 

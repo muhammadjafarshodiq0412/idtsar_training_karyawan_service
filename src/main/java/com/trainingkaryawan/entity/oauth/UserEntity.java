@@ -23,29 +23,13 @@ public class UserEntity implements UserDetails, Serializable {
     @Column(length = 100, unique = true)
     private String username;
     private String email;
-    @Column(name = "fullname", length = 100)
     private String fullName;
+    private String phoneNumber;
+    private String domicile;
+    private String gender;
     @JsonIgnore
     private String password;
-    @JsonIgnore
-    private String verifyToken;
-    @JsonIgnore
-    private Date expiredVerifyToken;
-    @Column(length = 100)
-    private String otp;
-    private Date otpExpiredDate;
     private Boolean isActive;
-    @JsonIgnore
-    private boolean enabled = true;
-    @JsonIgnore
-    @Column(name = "not_expired")
-    private boolean accountNonExpired = true;
-    @JsonIgnore
-    @Column(name = "not_locked")
-    private boolean accountNonLocked = true;
-    @JsonIgnore
-    @Column(name = "credential_not_expired")
-    private boolean credentialsNonExpired = true;
     @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "oauth_user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -56,6 +40,17 @@ public class UserEntity implements UserDetails, Serializable {
         this.username = username;
         this.email = email;
         this.fullName = fullName;
+    }
+
+    public UserEntity(String username, String email, String fullName, String phoneNumber, String domicile, String gender, String password, Boolean isActive) {
+        this.username = username;
+        this.email = email;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.domicile = domicile;
+        this.gender = gender;
+        this.password = password;
+        this.isActive = isActive;
     }
 
     public void addRole(RoleEntity item) {
@@ -87,22 +82,22 @@ public class UserEntity implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.accountNonExpired;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return accountNonLocked;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 }
 

@@ -23,9 +23,7 @@ public class DbInit implements ApplicationListener<ContextRefreshedEvent> {
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
-    private final RoleServiceImpl roleService;
     private final UserServiceImpl userService;
-    private final PasswordEncoder passwordEncoder;
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
@@ -42,7 +40,7 @@ public class DbInit implements ApplicationListener<ContextRefreshedEvent> {
         RoleEntity roleSecretary = roleRepository.save(new RoleEntity("SECRETARY", "Role Secretary"));
         RoleEntity roleEmployee = roleRepository.save(new RoleEntity("EMPLOYEE", "Role Employee"));
 
-        UserEntity user1 = new UserEntity("superadmin", "mohamad.faqih@idstar.co.id", "Gita");
+        UserEntity user1 = new UserEntity("superadmin", "superadmin@gmail.com", "Gita");
         user1.setPassword("123");
         user1.setIsActive(true);
         user1.setRoles(List.of(roleSuperUser));

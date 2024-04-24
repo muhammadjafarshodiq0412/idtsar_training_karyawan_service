@@ -29,6 +29,8 @@ public class DocumentServiceImpl {
     private String serverPort;
     @Value("${server.servlet.context-path}")
     private String contextPath;
+    @Value("${server.domain}")
+    private String serverAddress;
     private final ResponseService responseService;
 
     public DocumentServiceImpl(ResponseService responseService) {
@@ -40,10 +42,9 @@ public class DocumentServiceImpl {
         Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_VALIDATE_OTP, null);
         try {
             File file = FileUtil.saveFile(directoryFileUpload, "", multipartFile);
-            String ip = !ObjectUtils.isEmpty(IPUtil.getIPAddress()) ? IPUtil.getIPAddress() : "http://your-domain";
             Map<String, Object> data = new HashMap<>();
             data.put("fileName", file.getName());
-            data.put("fileDownloadUri", "http://".concat(ip).concat(":").concat(serverPort).concat(contextPath).concat("/show-file/").concat(file.getName()));
+            data.put("fileDownloadUri", serverAddress.concat(":").concat(serverPort).concat(contextPath).concat("/show-file/").concat(file.getName()));
             data.put("fileType", FileUtil.getFileType(multipartFile));
             data.put("size", file.length());
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_UPLOAD_FILE, data);

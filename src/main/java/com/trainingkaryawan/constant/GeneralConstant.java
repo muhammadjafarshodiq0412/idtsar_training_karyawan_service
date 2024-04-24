@@ -21,7 +21,10 @@ public class GeneralConstant {
     public static final String LOG_END = "end %s %s";
     public static final String LOG_ERROR = "error %s %s : %s";
     public static final String LOG_ERROR_NOT_FOUND= "%s not found";
+    public static final String LOG_ERROR_DATA_ALREADY_EXIST= "%s already exist";
     public static final String SAVE = "save";
+    public static final String REGISTER = "register";
+    public static final String ACTIVATION_USER = "activation user";
     public static final String UPDATE = "update";
     public static final String VALIDATE_OTP = "validate otp";
     public static final String CHANGE_PASSWORD = "change password";

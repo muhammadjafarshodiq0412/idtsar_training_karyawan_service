@@ -94,12 +94,12 @@ public class OtpServiceImpl implements CrudService<OtpEntity, OtpEntity, Pair<Ht
         log.info(String.format(LOG_START, VALIDATE_OTP, ""));
         Pair<HttpStatus, GeneralResponse<Object>> response = responseService.generateErrorResponse(ResponseType.ERROR_SEND_OTP, null);
         try {
+
             UserEntity userEntity = userRepository.findByEmail(request.getEmail()).orElse(null);
             if (ObjectUtils.isEmpty(userEntity)) {
                 log.info(String.format(LOG_ERROR_NOT_FOUND, USER));
                 return responseService.generateErrorDataNotFound(USER_ENTITY_NAME);
             }
-
             OtpEntity otpEntity = otpRepository.findByEmail(request.getEmail()).orElse(null);
             if (ObjectUtils.isEmpty(otpEntity)) {
                 OtpEntity otp = new OtpEntity();
@@ -116,9 +116,7 @@ public class OtpServiceImpl implements CrudService<OtpEntity, OtpEntity, Pair<Ht
                 otpEntity.setExpirationTime(TimeUtil.calculateExpirationTime(5));
                 otpEntity = otpRepository.save(otpEntity);
             }
-            templateEmailRequestOtp = templateEmailRequestOtp.replace("{fullname}", userEntity.getFullName());
-            templateEmailRequestOtp = templateEmailRequestOtp.replace("{otp}", otpEntity.getOtp());
-            mailService.sendEmail(otpEntity.getEmail(), "Request OTP forget password", templateEmailRequestOtp);
+            mailService.sendEmail(otpEntity.getEmail(), "Request OTP forget password", templateEmailRequestOtp.replace("{fullname}", userEntity.getFullName()).replace("{otp}", otpEntity.getOtp()));
             response = responseService.generateSuccessResponse(ResponseType.SUCCESS_SEND_OTP, null);
         } catch (Exception e) {
             log.error(String.format(LOG_ERROR, VALIDATE_OTP, "", e.getMessage()), e);

@@ -14,4 +14,5 @@ public interface ResponseService {
     ResponseEntity<Object> toResponseEntity(Pair<HttpStatus, GeneralResponse<Object>> response);
     Map<String, Object> toMap(Pair<HttpStatus, GeneralResponse<Object>> response);
     Pair<HttpStatus, GeneralResponse<Object>> generateErrorDataNotFound(String... message);
+    Pair<HttpStatus, GeneralResponse<Object>> generateErrorDataExist(String... message);
 }
